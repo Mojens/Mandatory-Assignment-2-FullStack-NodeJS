@@ -1,0 +1,36 @@
+{
+  "name": "mandatory.02",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.0.3",
+    "svelte": "^3.55.1",
+    "vite": "^4.2.0"
+  },
+  "description": "This template should help get you started developing with Svelte in Vite.",
+  "main": "svelte.config.js",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "kleur": "^4.1.5",
+    "esbuild": "^0.17.17",
+    "fsevents": "^2.3.2",
+    "ms": "^2.1.2",
+    "nanoid": "^3.3.6",
+    "deepmerge": "^4.3.1",
+    "magic-string": "^0.30.0",
+    "postcss": "^8.4.23",
+    "picocolors": "^1.0.0",
+    "rollup": "^3.20.7",
+    "source-map-js": "^1.0.2",
+    "vitefu": "^0.2.4",
+    "svelte-hmr": "^0.15.1"
+  },
+  "author": "Mohammad M.",
+  "license": "MIT"
+}
