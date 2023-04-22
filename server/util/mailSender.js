@@ -15,7 +15,7 @@ const transporter = nodemail.createTransport({
 function sendForgotPasswordMail(req, res) {
     const mailData = {
         from: process.env.MAIL_USER,
-        to: process.env.MAIL_USER,
+        to: req.body.email,
         subject: subject,
         text: ``,
         html: `<h1>Hi</h1>`
