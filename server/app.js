@@ -3,6 +3,8 @@ const app = express();
 app.use(express.json());
 
 
+import loginRouter from './routers/loginRouter.js';
+app.use(loginRouter);
 
 
 

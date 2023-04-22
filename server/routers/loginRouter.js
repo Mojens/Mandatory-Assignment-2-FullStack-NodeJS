@@ -3,17 +3,17 @@ const router = Router();
 
 
 
-router.post('/login', (req, res) => {
+router.post('/api/login', (req, res) => {
     console.log(req.body);
     res.send('ok');
 })
 
-router.post('/register', (req, res) => {
+router.post('/api/register', (req, res) => {
     console.log(req.body);
     res.send('ok');
 });
 
-router.post('/logout', (req, res) => {
+router.post('/api/logout', (req, res) => {
     console.log(req.body);
     res.send('ok');
 });
