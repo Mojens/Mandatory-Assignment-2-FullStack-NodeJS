@@ -1,12 +1,15 @@
 <script>
     import toastr from "toastr";
     import { BASE_URL } from "../../store/globalsStore.js";
+    import { useNavigate, useLocation } from "svelte-navigator";
 
-    let email = "john_doe@emailprovider.com";
+    const navigate = useNavigate();
+    const location = useLocation();
+    let token = location.params.token;
+
+    
     let password = "test123";
     let confirm_password = "test123";
-    let first_name = "John";
-    let last_name = "Doe";
 
     async function handleRegister() {
         const response = await fetch($BASE_URL + "/api/register", {
@@ -16,9 +19,7 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                first_name,
-                last_name,
-                email,
+                token,
                 password,
                 confirm_password,
             }),
@@ -42,34 +43,6 @@
             <p>Please enter your details to create an account.</p>
             <form on:submit|preventDefault={handleRegister}>
                 <div class="form-group">
-                    <label for="first_name">First Name</label>
-                    <input
-                        type="text"
-                        id="first_name"
-                        bind:value={first_name}
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="last_name">Last Name</label>
-                    <input
-                        type="text"
-                        id="last_name"
-                        bind:value={last_name}
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        bind:value={email}
-                        required
-                    />
-                </div>
-
-                <div class="form-group">
                     <label for="password">Password</label>
                     <input
                         type="password"
@@ -91,12 +64,6 @@
                     </div>
                 </div>
             </form>
-
-            <div class="form-links">
-                <a href="/forgot-password">Forgot password?</a>
-                <span id="form-link-divider">|</span>
-                <a href="/login">Already registered?</a>
-            </div>
         </div>
     </div>
 </main>
@@ -118,10 +85,6 @@
 
     a {
         color: var(--primary-color);
-    }
-
-    a:hover {
-        color: #0056b3;
     }
 
     .container {
@@ -191,17 +154,6 @@
     .form-group button:hover {
         background-color: #747bff;
     }
-
-    .form-links {
-        margin-top: 20px;
-        font-size: 0.9rem;
-        text-align: center;
-    }
-
-    .form-links a {
-        margin: 0 10px;
-    }
-
     @media screen and (max-width: 480px) {
         :root {
             --form-width: 90%;
