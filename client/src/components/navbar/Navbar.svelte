@@ -18,6 +18,12 @@
             : null,
         $user
             ? {
+                  path: "/posts",
+                  name: "Posts",
+              }
+            : null,
+        $user
+            ? {
                   path: "/logout",
                   name: "Logout",
               }
@@ -51,7 +57,12 @@
         <div class="nav-links">
             {#each navigationLinks as link}
                 {#if link.name === "Logout"}
-                    <a class="nav-link" href="/login" on:click={handleLogout}  on:keypress={handleLogout}>{link.name}</a>
+                    <a
+                        class="nav-link"
+                        href="/login"
+                        on:click={handleLogout}
+                        on:keypress={handleLogout}>{link.name}</a
+                    >
                 {:else}
                     <Link class="nav-link" to={link.path}>{link.name}</Link>
                 {/if}

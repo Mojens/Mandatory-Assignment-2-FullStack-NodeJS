@@ -9,6 +9,7 @@
     import ResetPassword from "./pages/reset_password/ResetPassword.svelte";
     import PrivateRoute from "./PrivateRoute.svelte";
     import Profile from "./pages/profile/Profile.svelte";
+    import Posts from "./pages/posts/Posts.svelte";
 </script>
 
 <Router>
@@ -20,6 +21,9 @@
     <Route path="/reset-password/:token" component={ResetPassword} />
     <PrivateRoute path="/profile" let:location>
         <Profile />
+    </PrivateRoute>
+    <PrivateRoute path="/posts" let:location>
+        <Posts />
     </PrivateRoute>
 </Router>
 <Footer />
