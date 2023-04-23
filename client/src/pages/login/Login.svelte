@@ -2,8 +2,8 @@
     import toastr from "toastr";
     import { BASE_URL } from "../../store/globalsStore.js";
 
-    let email = "test@outlook.dk";
-    let password = "1234";
+    let email = "john_doe@emailprovider.com";
+    let password = "test123";
 
     async function handleLogin() {
         const response = await fetch($BASE_URL + "/api/login", {
@@ -30,6 +30,10 @@
     <div class="container">
         <div class="form-container">
             <h1 class="h1-c">Login</h1>
+            <p>Please enter your login details below.</p>
+            <p>If you have forgotten your password, you can reset it by clicking the "Forgot Password?"
+                link.
+            </p>
             <form on:submit|preventDefault={handleLogin}>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -172,7 +176,7 @@
         }
     }
     h1,
-    label {
+    label, p {
         color: #747bff !important;
     }
 </style>
