@@ -1,6 +1,11 @@
 <script>
+    import { useNavigate, useLocation } from "svelte-navigator";
+    import { user } from "../../stores/userStore.js";
     import toastr from "toastr";
-    import { BASE_URL } from "../../store/globalsStore.js";
+    import { BASE_URL } from "../../stores/globalsStore.js";
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     let email = "";
     let password = "";
@@ -20,6 +25,9 @@
         const data = await response.json();
         if (response.status === 200) {
             toastr.success(data.message);
+            user.set(data.user);
+            const from = ($location.state && $location.state.from) || "/profile";
+            navigate(from, { replace: true });
         } else {
             toastr.error(data.message);
         }
@@ -31,8 +39,9 @@
         <div class="form-container">
             <h1 class="h1-c">Login</h1>
             <p>Please enter your login details below.</p>
-            <p>If you have forgotten your password, you can reset it by clicking the "Forgot Password?"
-                link.
+            <p>
+                If you have forgotten your password, you can reset it by
+                clicking the "Forgot Password?" link.
             </p>
             <form on:submit|preventDefault={handleLogin}>
                 <div class="form-group">
@@ -176,7 +185,8 @@
         }
     }
     h1,
-    label, p {
+    label,
+    p {
         color: #747bff !important;
     }
 </style>

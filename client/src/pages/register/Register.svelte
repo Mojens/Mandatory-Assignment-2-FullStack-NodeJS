@@ -1,6 +1,6 @@
 <script>
     import toastr from "toastr";
-    import { BASE_URL } from "../../store/globalsStore.js";
+    import { BASE_URL } from "../../stores/globalsStore.js";
 
     let email = "";
     let password = "";
