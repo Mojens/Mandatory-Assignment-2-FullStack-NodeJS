@@ -1,6 +1,14 @@
 import express from 'express';
 const app = express();
+
 app.use(express.json());
+
+import cors from 'cors';
+app.use(cors({
+    credentials: true,
+    origin: true,
+}));
+
 
 
 import loginRouter from './routers/loginRouter.js';
