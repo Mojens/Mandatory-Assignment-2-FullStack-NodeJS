@@ -44,11 +44,12 @@ router.post('/api/login', async (req, res) => {
                     status: 400
                 });
             } else {
-                const { password, ...userWithoutPassword } = user; // Get all properties from user except password
+                const { password, token, token_expiration, ...userWithoutPassword } = user; // Get everything from user except password, token, token_expiration
                 req.session.user = userWithoutPassword;
                 console.log("Session: ", req.session.user)
                 return res.status(200).send({
-                    message: 'Successfully Logged In',
+                    message: 'Logged In',
+                    user: userWithoutPassword,
                     status: 200
                 });
             }
@@ -89,9 +90,9 @@ router.post('/api/register', async (req, res) => {
 });
 
 router.post('/api/logout', (req, res) => {
-    req.session.destroy();
+    req.session.destroy()
     return res.status(200).send({
-        message: 'Successfully Logged out',
+        message: 'Logged out',
         status: 200,
     })
 });
