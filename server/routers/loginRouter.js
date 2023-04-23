@@ -17,20 +17,19 @@ router.use(session({
 import crypto from 'crypto';
 
 router.get('/api/users', async (req, res) => {
-    const users = await db.all(`SELECT * FROM users`);
+    const users = await db.all('SELECT * FROM users');
     res.send(users);
 })
 
 router.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log("Body: ", req.body)
     if (!email || !password) {
         return res.status(400).send({
             message: 'Please Fill In All Fields',
             status: 400
         });
     } else {
-        const [user] = await db.all(`SELECT * FROM users WHERE LOWER(email) = ?`, [email.toLowerCase()]);
+        const [user] = await db.all('SELECT * FROM users WHERE LOWER(email) = ?', [email.toLowerCase()]);
         if (!user) {
             return res.status(400).send({
                 message: 'Could Not Find User',
@@ -46,7 +45,6 @@ router.post('/api/login', async (req, res) => {
             } else {
                 const { password, token, token_expiration, ...userWithoutPassword } = user; // Get everything from user except password, token, token_expiration
                 req.session.user = userWithoutPassword;
-                console.log("Session: ", req.session.user)
                 return res.status(200).send({
                     message: 'Logged In',
                     user: userWithoutPassword,
@@ -65,7 +63,7 @@ router.post('/api/register', async (req, res) => {
             status: 400
         });
     } else {
-        const [user] = await db.all(`SELECT * FROM users WHERE email = ?`, [email]);
+        const [user] = await db.all('SELECT * FROM users WHERE email = ?', [email]);
         if (user) {
             return res.status(400).send({
                 message: 'User Already Exists',
@@ -79,7 +77,7 @@ router.post('/api/register', async (req, res) => {
                 });
             } else {
                 const hashedPassword = await bcrypt.hash(password, 12);
-                await db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)`, [first_name, last_name, email, hashedPassword]);
+                await db.run('INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)', [first_name, last_name, email, hashedPassword]);
                 return res.status(200).send({
                     message: 'Successfully Registered',
                     status: 200,
@@ -107,7 +105,7 @@ router.post('/api/forgot-password', async (req, res) => {
             status: 400
         });
     } else {
-        const [user] = await db.all(`SELECT * FROM users WHERE LOWER(email) = ?`, [email.toLowerCase()]);
+        const [user] = await db.all('SELECT * FROM users WHERE LOWER(email) = ?', [email.toLowerCase()]);
         if (!user) {
             return res.status(400).send({
                 message: 'Could Not Find User',
@@ -116,7 +114,7 @@ router.post('/api/forgot-password', async (req, res) => {
         } else {
             const token = crypto.randomBytes(20).toString('hex');
             const token_expiration = Date.now() + 3600000;
-            await db.run(`UPDATE users SET token = ?, token_expiration = ? WHERE email = ?`, [token, token_expiration, email]);
+            await db.run('UPDATE users SET token = ?, token_expiration = ? WHERE email = ?', [token, token_expiration, email]);
             return sendForgotPasswordMail(res, email, token);
         }
     }
@@ -142,7 +140,7 @@ router.post('/api/reset-password', async (req, res) => {
                 status: 400
             });
         } else {
-            const [user] = await db.all(`SELECT * FROM users WHERE token = ?`, [token]);
+            const [user] = await db.all('SELECT * FROM users WHERE token = ?', [token]);
             if (!user) {
                 return res.status(400).send({
                     message: 'Something went wrong',
@@ -165,7 +163,7 @@ router.post('/api/reset-password', async (req, res) => {
                         });
                     } else {
                         const hashedPassword = await bcrypt.hash(password, 12);
-                        await db.run(`UPDATE users SET password = ?, token = NULL, token_expiration = NULL WHERE id = ?`, [hashedPassword, user.id]);
+                        await db.run('UPDATE users SET password = ?, token = NULL, token_expiration = NULL WHERE id = ?', [hashedPassword, user.id]);
                         return res.status(200).send({
                             message: 'Successfully Reset Password',
                             status: 200,

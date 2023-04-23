@@ -36,6 +36,8 @@ app.use(apiLimiter);
 import loginRouter from './routers/loginRouter.js';
 app.use(loginRouter);
 
+import postRouter from './routers/postRouter.js';
+app.use(postRouter);
 
 
 
