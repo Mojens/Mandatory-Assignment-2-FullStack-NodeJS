@@ -2,11 +2,11 @@
     import toastr from "toastr";
     import { BASE_URL } from "../../store/globalsStore.js";
 
-    let email = "john_doe@emailprovider.com";
-    let password = "test123";
-    let confirm_password = "test123";
-    let first_name = "John";
-    let last_name = "Doe";
+    let email = "";
+    let password = "";
+    let confirm_password = "";
+    let first_name = "";
+    let last_name = "";
 
     async function handleRegister() {
         const response = await fetch($BASE_URL + "/api/register", {

@@ -2,7 +2,7 @@
     import toastr from "toastr";
     import { BASE_URL } from "../../store/globalsStore.js";
 
-    let email = "john_doe@emailprovider.com";
+    let email = "";
 
     async function handleResetPassword() {
         const response = await fetch($BASE_URL + "/api/forgot-password", {

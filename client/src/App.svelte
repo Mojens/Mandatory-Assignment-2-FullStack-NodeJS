@@ -1,6 +1,5 @@
 <script>
     import { Router, Route } from "svelte-navigator";
-    import { onMount } from "svelte";
     import Navbar from "./components/navbar/Navbar.svelte";
     import Footer from "./components/footer/Footer.svelte";
     import Home from "./pages/home/Home.svelte";
@@ -16,6 +15,6 @@
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
     <Route path="/forgot-password" component={ForgotPassword} />
-    <Route path="/reset-password/:token" component={ResetPassword}  />
+    <Route path="/reset-password/:token" component={ResetPassword} />
 </Router>
 <Footer />

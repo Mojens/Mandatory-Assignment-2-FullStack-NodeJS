@@ -1,18 +1,17 @@
 <script>
     import toastr from "toastr";
     import { BASE_URL } from "../../store/globalsStore.js";
-    import { useNavigate, useLocation } from "svelte-navigator";
+    import { useParams } from "svelte-navigator";
 
-    const navigate = useNavigate();
-    const location = useLocation();
-    let token = location.params.token;
+    let token = "";
+    useParams().subscribe((value) => {
+        token = value.token;
+    });
+    let password = "";
+    let confirm_password = "";
 
-    
-    let password = "test123";
-    let confirm_password = "test123";
-
-    async function handleRegister() {
-        const response = await fetch($BASE_URL + "/api/register", {
+    async function handleResetPassword() {
+        const response = await fetch($BASE_URL + "/api/reset-password", {
             credentials: "include",
             method: "POST",
             headers: {
@@ -29,7 +28,7 @@
             toastr.success(data.message);
             setTimeout(() => {
                 window.location.href = "/login";
-            }, 1500);
+            }, 2000);
         } else {
             toastr.error(data.message);
         }
@@ -41,7 +40,7 @@
         <div class="form-container">
             <h1 class="h1-c">Sign Up</h1>
             <p>Please enter your details to create an account.</p>
-            <form on:submit|preventDefault={handleRegister}>
+            <form on:submit|preventDefault={handleResetPassword}>
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input
@@ -81,10 +80,6 @@
 
     * {
         box-sizing: border-box;
-    }
-
-    a {
-        color: var(--primary-color);
     }
 
     .container {
