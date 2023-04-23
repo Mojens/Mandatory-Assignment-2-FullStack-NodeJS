@@ -179,6 +179,20 @@ router.post('/api/reset-password', async (req, res) => {
 
 });
 
+router.post('/api/test-session', (req, res) => {
+    if (req.session.user) {
+        return res.status(200).send({
+            message: 'Logged In',
+            status: 200,
+        })
+    } else {
+        return res.status(400).send({
+            message: 'Not Logged In',
+            status: 400,
+        })
+    }
+});
+
 
 
 export default router;
