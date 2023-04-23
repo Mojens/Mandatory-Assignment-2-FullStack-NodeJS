@@ -14,6 +14,10 @@ router.use(session({
     cookie: { secure: false }
 }));
 
+router.get('/api/users', async (req, res) => {
+    const users = await db.all(`SELECT * FROM users`);
+    res.send(users);
+})
 
 router.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
@@ -24,7 +28,7 @@ router.post('/api/login', async (req, res) => {
             status: 400
         });
     } else {
-        const [user] = await db.all(`SELECT * FROM users WHERE email = ?`, [email]);
+        const [user] = await db.all(`SELECT * FROM users WHERE LOWER(email) = ?`, [email.toLowerCase()]);
         if (!user) {
             return res.status(400).send({
                 message: 'Could Not Find User',
@@ -50,18 +54,28 @@ router.post('/api/login', async (req, res) => {
     }
 });
 
-router.post('/api/register', (req, res) => {
-    const { email, password } = req.body;
-    if (email !== 'test@outlook.dk') {
+router.post('/api/register', async (req, res) => {
+    const { first_name, last_name, email, password } = req.body;
+    if (!first_name || !last_name || !email || !password) {
         return res.status(400).send({
-            message: 'Somthing Went Wrong, Please Try Again',
+            message: 'Please Fill In All Fields',
             status: 400
         });
     } else {
-        return res.status(200).send({
-            message: 'Successfully Logged In',
-            status: 200
-        });
+        const [user] = await db.all(`SELECT * FROM users WHERE email = ?`, [email]);
+        if (user) {
+            return res.status(400).send({
+                message: 'User Already Exists',
+                status: 400
+            });
+        } else {
+            const hashedPassword = await bcrypt.hash(password, 12);
+            await db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)`, [first_name, last_name, email, hashedPassword]);
+            return res.status(200).send({
+                message: 'Successfully Registered',
+                status: 200,
+            })
+        }
     }
 });
 
