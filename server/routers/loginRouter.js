@@ -17,7 +17,7 @@ router.use(session({
 
 router.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body)
+    console.log("Body: ", req.body)
     if (!email || !password) {
         return res.status(400).send({
             message: 'Please Fill In All Fields',
@@ -38,7 +38,9 @@ router.post('/api/login', async (req, res) => {
                     status: 400
                 });
             } else {
-                req.session.user = user;
+                const { password, ...userWithoutPassword } = user; // Get all properties from user except password
+                req.session.user = userWithoutPassword;
+                console.log("Session: ", req.session.user)
                 return res.status(200).send({
                     message: 'Successfully Logged In',
                     status: 200
