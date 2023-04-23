@@ -5,8 +5,24 @@
     let email = "test@outlook.dk";
     let password = "1234";
 
-    function handleLogin() {
-      
+    async function handleLogin() {
+        const response = await fetch($BASE_URL + "/api/login", {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+            toastr.success(data.message);
+        } else {
+            toastr.error(data.message);
+        }
     }
 </script>
 
