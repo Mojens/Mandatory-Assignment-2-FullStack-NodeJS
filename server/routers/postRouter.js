@@ -17,17 +17,29 @@ router.use(session({
 router.get('/api/published/posts', async (req, res) => {
     const posts = await db.all('SELECT * FROM posts WHERE is_published = true');
     res.json(posts);
+    if (!posts) {
+        return res.status(404).send({
+            message: "Posts Not Found",
+            status: 404
+        });
+    }
 });
 
 router.get('/api/published/posts/:id', async (req, res) => {
     const [post] = await db.all('SELECT * FROM posts WHERE id = ? AND is_published = true', [req.params.id]);
+    if (!post) {
+        return res.status(404).send({
+            message: "Post Not Found",
+            status: 404
+        });
+    }
     res.json(post);
 });
 
 router.get('/api/posts', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send({
-            message: "Not Authorized",
+            message: "Unauthorized",
             status: 401
         });
     } else {
@@ -43,7 +55,7 @@ router.get('/api/posts', async (req, res) => {
 router.post('/api/posts', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send({
-            message: "Not Authorized",
+            message: "Unauthorized",
             status: 401
         });
     } else {
@@ -66,30 +78,31 @@ router.post('/api/posts', async (req, res) => {
     }
 });
 
-router.put('/api/posts/:id', async (req, res) => {
+router.delete('/api/posts/:id', async (req, res) => {
     if (!req.session.user) {
         return res.status(401).send({
-            message: "Not Authorized",
+            message: "Unauthorized",
             status: 401
         });
-    } else {
-        const { title, body, is_published } = req.body;
-        if (!title || !body || is_published === undefined) {
-            return res.status(400).send({
-                message: "Please Fill In All Fields",
-                status: 400
-            });
-        } else {
-            await db.run('UPDATE posts SET title = ?, body = ?, is_published = ? WHERE id = ?', [title, body, is_published, req.params.id]);
-
-            const updatedPost = await db.all('SELECT * FROM posts WHERE user_id = ?', [req.session.user.id]);
-            return res.status(200).send({
-                message: "Post Updated",
-                posts: updatedPost,
-                status: 200
-            });
-        }
     }
+
+    const post = await db.get('SELECT * FROM posts WHERE id = ?', req.params.id);
+    if (!post || post.user_id !== req.session.user.id) {
+        return res.status(403).send({
+            message: "Forbidden",
+            status: 403
+        });
+    }
+
+    await db.run('DELETE FROM posts WHERE id = ?', req.params.id);
+
+    const updatedPost = await db.all('SELECT * FROM posts WHERE user_id = ?', [req.session.user.id]);
+    return res.status(200).send({
+        message: "Post Deleted",
+        posts: updatedPost,
+        status: 200
+    });
 });
+
 
 export default router;
