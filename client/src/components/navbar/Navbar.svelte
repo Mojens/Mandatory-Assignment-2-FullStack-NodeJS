@@ -1,16 +1,45 @@
 <script>
     import { Link } from "svelte-navigator";
+    import { user } from "../../stores/userStore.js";
+    import { BASE_URL } from "../../stores/globalsStore.js";
+    import toastr from "toastr";
 
-    export const navigationLinks = [
+    $: navigationLinks = [
         {
             path: "/",
             name: "Home",
         },
-        {
-            path: "/login",
-            name: "Login",
-        },
-    ];
+        ,
+        $user
+            ? {
+                  path: "/profile",
+                  name: "Profile",
+              }
+            : null,
+        $user
+            ? {
+                  path: "/logout",
+                  name: "Logout",
+              }
+            : {
+                  path: "/login",
+                  name: "Login",
+              },
+    ].filter(Boolean);
+
+    async function handleLogout() {
+        const response = await fetch($BASE_URL + "/api/logout", {
+            method: "POST",
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+            toastr.error(data.message);
+            user.set(null);
+            $user = null;
+        } else {
+            toastr.error(data.message);
+        }
+    }
 </script>
 
 <header>
@@ -20,7 +49,11 @@
         </Link>
         <div class="nav-links">
             {#each navigationLinks as link}
-                <Link class="nav-link" to={link.path}>{link.name}</Link>
+                {#if link.name === "Logout"}
+                    <a class="nav-link" on:click={handleLogout}>{link.name}</a>
+                {:else}
+                    <Link class="nav-link" to={link.path}>{link.name}</Link>
+                {/if}
             {/each}
         </div>
     </nav>
@@ -35,6 +68,7 @@
         background-color: var(--bg-color);
         color: var(--text-color);
         transition: background-color 0.25s ease-out, color 0.25s ease-out;
+        z-index: 9999;
     }
 
     .nav-links {
@@ -60,5 +94,10 @@
             --hover-text-color: #ffffff;
             --hover-bg-color: #535bf2;
         }
+    }
+    a {
+        text-decoration: none;
+        user-select: none;
+        cursor: pointer;
     }
 </style>

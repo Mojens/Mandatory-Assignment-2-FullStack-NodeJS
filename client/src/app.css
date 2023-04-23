@@ -78,11 +78,11 @@ main {
 }
 
 #toast-container {
-  position: absolute;
-  top: 80px;
+  position: fixed;
+  top: 150px;
   right: 2rem;
   width: 300px;
-  z-index: 9999;
+  z-index: 8000;
 }
 
 .toast {
@@ -96,6 +96,7 @@ main {
   text-align: center;
   font-size: large;
   margin-top: 80px;
+  pointer-events: none;
 }
 
 .toast-success {
