@@ -24,6 +24,7 @@
         });
         const data = await response.json();
         if (response.status === 200) {
+            localStorage.setItem("user", JSON.stringify(data.user));
             toastr.success(data.message);
             user.set(data.user);
             const from = ($location.state && $location.state.from) || "/profile";

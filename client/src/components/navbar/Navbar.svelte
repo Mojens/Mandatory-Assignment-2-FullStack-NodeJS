@@ -34,6 +34,7 @@
         const data = await response.json();
         if (response.status === 200) {
             toastr.error(data.message);
+            localStorage.removeItem("user");
             user.set(null);
             $user = null;
         } else {
@@ -50,7 +51,7 @@
         <div class="nav-links">
             {#each navigationLinks as link}
                 {#if link.name === "Logout"}
-                    <a class="nav-link" on:click={handleLogout}>{link.name}</a>
+                    <a class="nav-link" href="/login" on:click={handleLogout}  on:keypress={handleLogout}>{link.name}</a>
                 {:else}
                     <Link class="nav-link" to={link.path}>{link.name}</Link>
                 {/if}
