@@ -164,7 +164,7 @@ router.post('/api/reset-password', async (req, res) => {
                         });
                     } else {
                         const hashedPassword = await bcrypt.hash(password, 12);
-                        await db.run(`UPDATE users SET password = ?, token = NULL, token_expiration = NULL WHERE email = ?`, [hashedPassword, email]);
+                        await db.run(`UPDATE users SET password = ?, token = NULL, token_expiration = NULL WHERE id = ?`, [hashedPassword, user.id]);
                         return res.status(200).send({
                             message: 'Successfully Reset Password',
                             status: 200,
@@ -178,7 +178,6 @@ router.post('/api/reset-password', async (req, res) => {
 
 });
 
-router.get('/api/reset-password/:token', (req, res) => { });
 
 
 export default router;
