@@ -12,26 +12,31 @@ const transporter = nodemail.createTransport({
     secure: false
 });
 
-function sendForgotPasswordMail(req, res) {
+export function sendForgotPasswordMail(res, email, token) {
     const mailData = {
         from: process.env.MAIL_USER,
-        to: req.body.email,
-        subject: subject,
-        text: ``,
-        html: `<h1>Hi</h1>`
+        to: email,
+        subject: 'Reset your password',
+        html: `
+          <p>You are receiving this email because you has requested to reset your password.</p>
+          <p>If you did not ask to reset your password, please ignore this email.</p>
+          <p>Please click on the following link to reset your password:</p>
+          <a href="http://localhost:8080/reset-password/${token}">Reset Password</a>
+          <p>This link will expire in 1 hour.</p>
+        `,
     };
 
-    transporter.sendMail(mailData, function (err, info) {
+    transporter.sendMail(mailData, (err) => {
         if (err) {
-            const errorMessage = 'An error has occurred. Please try again later.';
-            console.log(err)
+            return res.status(400).send({
+                message: 'Something went wrong. Please try again.',
+                status: 400
+            });
         } else {
-            console.log(info);
-            const successMessage = 'Your message has been sent successfully.';
+            return res.status(200).send({
+                message: 'Successfully sent email',
+                status: 200
+            });
         }
     });
 }
-
-export default {
-    sendForgotPasswordMail
-};
