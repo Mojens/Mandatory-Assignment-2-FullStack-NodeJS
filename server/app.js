@@ -1,12 +1,16 @@
 import express from 'express';
 const app = express();
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 app.use(express.json());
 
 import cors from 'cors';
 app.use(cors({
     credentials: true,
     origin: true,
+    secret: process.env.SESSION_SECRET
 }));
 
 import session from 'express-session';
@@ -44,6 +48,7 @@ app.listen(PORT, (err) => {
     if (err) {
         console.log(err);
     } else {
+        console.log(process.env.SESSION_SECRET)
         console.log(`Server is listening on port ${PORT}`);
     }
 })
