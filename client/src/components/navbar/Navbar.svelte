@@ -52,14 +52,14 @@
 <header>
     <nav>
         <Link to="/">
-            <h1>My App</h1>
+            <h1>PostPoints</h1>
         </Link>
         <div class="nav-links">
             {#each navigationLinks as link}
                 {#if link.name === "Logout"}
+                    <!-- svelte-ignore a11y-missing-attribute -->
                     <a
                         class="nav-link"
-                        href="/login"
                         on:click={handleLogout}
                         on:keypress={handleLogout}>{link.name}</a
                     >

@@ -7,8 +7,8 @@
     const navigate = useNavigate();
     const location = useLocation();
 
-    let email = "";
-    let password = "";
+    let email = "john_doe@emailprovider.com";
+    let password = "test123";
 
     async function handleLogin() {
         const response = await fetch($BASE_URL + "/api/login", {

@@ -9,7 +9,7 @@
     import ResetPassword from "./pages/reset_password/ResetPassword.svelte";
     import PrivateRoute from "./PrivateRoute.svelte";
     import Profile from "./pages/profile/Profile.svelte";
-    import Posts from "./pages/posts/Posts.svelte";
+    import PrivatePosts from "./pages/posts/PrivatePosts.svelte";
 </script>
 
 <Router>
@@ -23,7 +23,7 @@
         <Profile />
     </PrivateRoute>
     <PrivateRoute path="/posts" let:location>
-        <Posts />
+        <PrivatePosts />
     </PrivateRoute>
 </Router>
 <Footer />
