@@ -38,7 +38,7 @@ router.post('/api/login', async (req, res) => {
                     status: 400
                 });
             } else {
-                const { password, token, token_expiration, ...userWithoutPassword } = user; // Get everything from user except password, token, token_expiration
+                const { password, token, token_expiration, ...userWithoutPassword } = user;
                 req.session.user = userWithoutPassword;
                 return res.status(200).send({
                     message: 'Logged In',

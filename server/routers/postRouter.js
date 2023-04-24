@@ -107,7 +107,7 @@ router.delete('/api/posts/:id', async (req, res) => {
 
     await db.run('DELETE FROM posts WHERE id = ?', req.params.id);
     return res.status(200).send({
-        message: "Post Deleted",
+        message: `Post Deleted <br> Title: ${post.title}`,
         status: 200
     });
 });
@@ -131,7 +131,7 @@ router.patch('/api/posts/:id', async (req, res) => {
     await db.run('UPDATE posts SET is_published = true WHERE id = ?', req.params.id);
 
     return res.status(200).send({
-        message: "Post published",
+        message: `Post published <br> Title: ${post.title}`,
         status: 200
     });
 });

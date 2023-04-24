@@ -36,6 +36,8 @@
         const data = await response.json();
         if (response.status === 200) {
             toastr.success(data.message);
+            user.set(data.user);
+            localStorage.setItem("user", JSON.stringify(data.user));
             getUser();
         } else {
             toastr.error(data.message);
@@ -66,6 +68,9 @@
 
 <main class="profile">
     <h1 class="profile_title">This is your profile page</h1>
+    <p class="profile_text">
+        You can update your profile information here.
+    </p>
     <div class="form-container">
         <form class="form" on:submit|preventDefault={handleUpdateProfile}>
             <div class="form_group">
@@ -181,7 +186,7 @@
     .reset-button:hover {
         color: #535bf2;
     }
-    label {
+    label, p {
         color: #535bf2;
         font-weight: bold;
     }

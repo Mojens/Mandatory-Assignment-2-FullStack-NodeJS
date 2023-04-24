@@ -55,8 +55,12 @@ router.put('/api/users/:id', async (req, res) => {
         });
     }
     await db.run('UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?', [first_name, last_name, email, id]);
+    const [user] = await db.all('SELECT * FROM users WHERE id = ?', [id]);
+    const { password, token, token_expiration, ...userWithoutPassword } = user;
+    req.session.user = userWithoutPassword;
     return res.status(200).send({
         message: 'Your information has been updated',
+        user: userWithoutPassword,
         status: 200
     });
 });

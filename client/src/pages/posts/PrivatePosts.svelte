@@ -217,6 +217,10 @@
     }
     .post-status-box {
         float: right;
+        border-radius: 8px;
+    }
+    .post-status {
+        border-radius: 8px;
     }
     .published {
         background-color: #4caf50;
