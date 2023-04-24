@@ -16,9 +16,23 @@ router.use(session({
 
 import crypto from 'crypto';
 
-router.get('/api/users', async (req, res) => {
-    const users = await db.all('SELECT * FROM users');
-    res.send(users);
+router.get('/api/users/:id', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).send({
+            message: 'Unauthorized',
+            status: 401
+        });
+    } else {
+        const { id } = req.params;
+        if (req.session.user.id !== id) {
+            return res.status(401).send({
+                message: 'Unauthorized',
+                status: 401
+            });
+        }
+        const [user] = await db.all('SELECT * FROM users WHERE id = ?', [id]);
+        res.send(user);
+    }
 })
 
 router.post('/api/login', async (req, res) => {
@@ -175,20 +189,6 @@ router.post('/api/reset-password', async (req, res) => {
 
     }
 
-});
-
-router.post('/api/test-session', (req, res) => {
-    if (req.session.user) {
-        return res.status(200).send({
-            message: 'Logged In',
-            status: 200,
-        })
-    } else {
-        return res.status(400).send({
-            message: 'Not Logged In',
-            status: 400,
-        })
-    }
 });
 
 router.post('/api/check-token', async (req, res) => {
