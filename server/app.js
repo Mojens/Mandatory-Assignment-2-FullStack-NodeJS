@@ -39,6 +39,8 @@ app.use(loginRouter);
 import postRouter from './routers/postRouter.js';
 app.use(postRouter);
 
+import userRouter from './routers/userRouter.js';
+app.use(userRouter);
 
 
 

@@ -16,25 +16,6 @@ router.use(session({
 
 import crypto from 'crypto';
 
-router.get('/api/users/:id', async (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).send({
-            message: 'Unauthorized',
-            status: 401
-        });
-    } else {
-        const { id } = req.params;
-        if (req.session.user.id !== id) {
-            return res.status(401).send({
-                message: 'Unauthorized',
-                status: 401
-            });
-        }
-        const [user] = await db.all('SELECT * FROM users WHERE id = ?', [id]);
-        res.send(user);
-    }
-})
-
 router.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -115,7 +96,7 @@ router.post('/api/forgot-password', async (req, res) => {
     const { email } = req.body;
     if (!email) {
         return res.status(400).send({
-            message: 'Please Fill In All Fields',
+            message: 'Please Fill out your email',
             status: 400
         });
     } else {

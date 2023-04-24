@@ -27,7 +27,7 @@
             localStorage.setItem("user", JSON.stringify(data.user));
             toastr.success(data.message);
             user.set(data.user);
-            const from = ($location.state && $location.state.from) || "/profile";
+            const from = ($location.state && $location.state.from) || "/posts";
             navigate(from, { replace: true });
         } else {
             toastr.error(data.message);

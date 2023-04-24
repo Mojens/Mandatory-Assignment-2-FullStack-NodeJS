@@ -12,7 +12,7 @@
         align-items: center;
         padding: 20px;
         background-color: var(--bg-color);
-        color: var(--text-color);
+        color: white;
         transition: background-color 0.25s ease-out, color 0.25s ease-out;
         position: fixed;
         left: 0;
