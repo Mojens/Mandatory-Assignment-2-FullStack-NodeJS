@@ -191,6 +191,29 @@ router.post('/api/test-session', (req, res) => {
     }
 });
 
+router.post('/api/check-token', async (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).send({
+            message: 'No Token Provided',
+            status: 400
+        });
+    };
+    const [user] = await db.all('SELECT * FROM users WHERE token = ?', [token]);
+    if (!user) {
+        return res.status(400).send({
+            message: 'Link is broken',
+            status: 400
+        });
+    }
+    if (Number(user.token_expiration) < Date.now()) {
+        return res.status(400).send({
+            message: 'Link Expired',
+            status: 400
+        });
+    }
+    return res.status(200)
+});
 
 
 export default router;

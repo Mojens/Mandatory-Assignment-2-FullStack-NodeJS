@@ -1,12 +1,14 @@
 <script>
+    import { onMount } from "svelte";
     import toastr from "toastr";
     import { BASE_URL } from "../../stores/globalsStore.js";
     import { useParams } from "svelte-navigator";
 
     let token = "";
-    useParams().subscribe((value) => {
-        token = value.token;
-    });
+
+        useParams().subscribe((value) => {
+            token = value.token;
+        });
     let password = "";
     let confirm_password = "";
 
@@ -33,13 +35,33 @@
             toastr.error(data.message);
         }
     }
+
+    async function checkToken() {
+        const response = await fetch($BASE_URL + "/api/check-token", {
+            credentials: "include",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                token,
+            }),
+        });
+        const data = await response.json();
+        if (response.status === 200) {
+            toastr.success(data.message);
+        } else {
+            toastr.error(data.message);
+        }
+    }
+    checkToken();
 </script>
 
 <main>
     <div class="container">
         <div class="form-container">
-            <h1 class="h1-c">Sign Up</h1>
-            <p>Please enter your details to create an account.</p>
+            <h1 class="h1-c">Reset your password</h1>
+            <p>Please enter your new password.</p>
             <form on:submit|preventDefault={handleResetPassword}>
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -59,7 +81,7 @@
                         required
                     />
                     <div class="form-group">
-                        <button type="submit">Sign Up</button>
+                        <button type="submit" id="reset-btn">Reset password</button>
                     </div>
                 </div>
             </form>
