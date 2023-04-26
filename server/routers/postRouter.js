@@ -120,7 +120,7 @@ router.patch('/api/posts/:id', async (req, res) => {
         });
     }
 
-    const post = await db.get('SELECT * FROM posts WHERE id = ?', req.params.id);
+    const post = await db.get('SELECT * FROM posts WHERE id = ?', Number(req.params.id));
     if (!post || post.user_id !== req.session.user.id) {
         return res.status(403).send({
             message: "Forbidden",
@@ -128,7 +128,7 @@ router.patch('/api/posts/:id', async (req, res) => {
         });
     }
 
-    await db.run('UPDATE posts SET is_published = true WHERE id = ?', req.params.id);
+    await db.run('UPDATE posts SET is_published = true WHERE id = ?', Number(req.params.id));
 
     return res.status(200).send({
         message: `Post published <br> Title: ${post.title}`,
