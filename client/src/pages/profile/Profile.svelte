@@ -79,8 +79,7 @@
                     type="text"
                     id="first_name"
                     class="form_input"
-                    bind:value={first_name}
-                />
+                    bind:value={first_name} />
             </div>
             <div class="form_group">
                 <label for="last_name">Last Name</label>
@@ -88,8 +87,7 @@
                     type="text"
                     id="last_name"
                     class="form_input"
-                    bind:value={last_name}
-                />
+                    bind:value={last_name} />
             </div>
             <div class="form_group">
                 <label for="email">Email</label>
@@ -97,18 +95,15 @@
                     type="text"
                     id="email"
                     class="form_input"
-                    bind:value={email}
-                />
+                    bind:value={email} />
             </div>
             <div class="form_button-container">
-                <button type="submit" class="form_button">Update Profile</button
-                >
+                <button type="submit" class="form_button">Update Profile</button>
             </div>
         </form>
         <div class="button-container">
             <button class="reset-button" on:click={handleResetPassword}
-                >Reset Password</button
-            >
+                >Reset Password</button>
         </div>
     </div>
 </main>

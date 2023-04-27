@@ -18,7 +18,6 @@
     }
     onMount(() => {
         getPosts();
-        console.log(publicPosts)
     });
 </script>
 

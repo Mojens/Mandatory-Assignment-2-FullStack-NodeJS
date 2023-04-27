@@ -57,11 +57,11 @@
         <div class="nav-links">
             {#each navigationLinks as link}
                 {#if link.name === "Logout"}
-                    <!-- svelte-ignore a11y-missing-attribute -->
-                    <a
+                    <Link
+                        to={"/"}
                         class="nav-link"
                         on:click={handleLogout}
-                        on:keypress={handleLogout}>{link.name}</a
+                        on:keypress={handleLogout}>{link.name}</Link
                     >
                 {:else}
                     <Link class="nav-link" to={link.path}>{link.name}</Link>
@@ -88,7 +88,6 @@
         gap: 20px;
     }
 
-    /* Light mode */
     @media (prefers-color-scheme: light) {
         :root {
             --text-color: #213547;
@@ -98,7 +97,6 @@
         }
     }
 
-    /* Dark mode */
     @media (prefers-color-scheme: dark) {
         :root {
             --text-color: rgba(255, 255, 255, 0.87);
@@ -106,10 +104,5 @@
             --hover-text-color: #ffffff;
             --hover-bg-color: #535bf2;
         }
-    }
-    a {
-        text-decoration: none;
-        user-select: none;
-        cursor: pointer;
     }
 </style>

@@ -47,8 +47,7 @@
                         type="text"
                         id="first_name"
                         bind:value={first_name}
-                        required
-                    />
+                        required />
                 </div>
                 <div class="form-group">
                     <label for="last_name">Last Name</label>
@@ -56,8 +55,7 @@
                         type="text"
                         id="last_name"
                         bind:value={last_name}
-                        required
-                    />
+                        required />
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -65,8 +63,7 @@
                         type="email"
                         id="email"
                         bind:value={email}
-                        required
-                    />
+                        required />
                 </div>
 
                 <div class="form-group">
@@ -75,8 +72,7 @@
                         type="password"
                         id="password"
                         bind:value={password}
-                        required
-                    />
+                        required />
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password</label>
@@ -84,8 +80,7 @@
                         type="password"
                         id="password"
                         bind:value={confirm_password}
-                        required
-                    />
+                        required />
                     <div class="form-group">
                         <button type="submit">Sign Up</button>
                     </div>

@@ -16,14 +16,13 @@ router.use(session({
 
 
 router.get('/api/users/:id', async (req, res) => {
-    const { id } = req.params;
-    if (!req.session.user || req.session.user.id !== Number(id)) {
+    if (!req.session.user || req.session.user.id !== Number(req.params.id)) {
         return res.status(401).send({
             message: 'Unauthorized',
             status: 401
         });
     }
-    const [user] = await db.all('SELECT * FROM users WHERE id = ?', [id]);
+    const [user] = await db.all('SELECT * FROM users WHERE id = ?', [Number(req.params.id)]);
     if (!user) {
         return res.status(404).send({
             message: 'Unable to get user information',
@@ -39,10 +38,8 @@ router.get('/api/users/:id', async (req, res) => {
 })
 
 router.put('/api/users/:id', async (req, res) => {
-    const { id } = req.params;
     const { first_name, last_name, email } = req.body;
-    console.log(req.body)
-    if (!req.session.user || req.session.user.id !== Number(id)) {
+    if (!req.session.user || req.session.user.id !== Number(req.params.id)) {
         return res.status(401).send({
             message: 'Unauthorized',
             status: 401
@@ -54,8 +51,8 @@ router.put('/api/users/:id', async (req, res) => {
             status: 400
         });
     }
-    await db.run('UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?', [first_name, last_name, email, id]);
-    const [user] = await db.all('SELECT * FROM users WHERE id = ?', [id]);
+    await db.run('UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?', [first_name, last_name, email, Number(req.params.id)]);
+    const [user] = await db.all('SELECT * FROM users WHERE id = ?', [Number(req.params.id)]);
     const { password, token, token_expiration, ...userWithoutPassword } = user;
     req.session.user = userWithoutPassword;
     return res.status(200).send({

@@ -39,8 +39,7 @@
                         type="email"
                         id="email"
                         bind:value={email}
-                        required
-                    />
+                        required/>
                     <div class="form-group">
                         <button type="submit">Reset Password</button>
                     </div>

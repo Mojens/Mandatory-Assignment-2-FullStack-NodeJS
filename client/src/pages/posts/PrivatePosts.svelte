@@ -73,7 +73,6 @@
             }
         }
     }
-
     async function handleSubmitPost() {
         const response = await fetch($BASE_URL + "/api/posts", {
             method: "POST",

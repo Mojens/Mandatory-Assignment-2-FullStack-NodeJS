@@ -51,8 +51,7 @@
                         type="email"
                         id="email"
                         bind:value={email}
-                        required
-                    />
+                        required />
                 </div>
 
                 <div class="form-group">
@@ -61,8 +60,7 @@
                         type="password"
                         id="password"
                         bind:value={password}
-                        required
-                    />
+                        required/>
                     <div class="form-group">
                         <button type="submit">Log in</button>
                     </div>

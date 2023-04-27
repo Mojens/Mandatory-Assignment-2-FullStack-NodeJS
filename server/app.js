@@ -13,14 +13,6 @@ app.use(cors({
     secret: process.env.CORS_SECRET
 }));
 
-import session from 'express-session';
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-
 import rateLimit from 'express-rate-limit';
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -29,8 +21,6 @@ const apiLimiter = rateLimit({
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 app.use(apiLimiter);
-
-
 
 
 import loginRouter from './routers/loginRouter.js';

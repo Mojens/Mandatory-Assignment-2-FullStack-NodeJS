@@ -69,8 +69,7 @@
                         type="password"
                         id="password"
                         bind:value={password}
-                        required
-                    />
+                        required />
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password</label>
@@ -78,8 +77,7 @@
                         type="password"
                         id="password"
                         bind:value={confirm_password}
-                        required
-                    />
+                        required />
                     <div class="form-group">
                         <button type="submit" id="reset-btn">Reset password</button>
                     </div>
